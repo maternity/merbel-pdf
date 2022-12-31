@@ -2,9 +2,7 @@ import EventEmitter from 'events';
 
 export interface Semaphore {
   apply<T>(fn: () => PromiseLike<T>): Promise<T>;
-  // This should be Promise<void> but EventEmitter.once() makes it
-  // Promise<any[]>.
-  idle(): Promise<unknown>;
+  events: EventEmitter;
 }
 
 export default function semaphore(size: number): Semaphore {
@@ -17,22 +15,15 @@ export default function semaphore(size: number): Semaphore {
 
   let n = size;
   const pending: Pending<any>[] = [];
-  interface IdleEmitter extends EventEmitter {
-    on(name: 'idle', fn: () => void): this;
-  }
-  const ee = new EventEmitter() as IdleEmitter;
+  const ee = new EventEmitter();
 
-  return {apply, idle};
+  return {apply, events: ee};
 
   function apply<T>(fn: Task<T>) {
     if (n == 0)
       return queue(fn);
     return run(fn);
   };
-
-  function idle() {
-    return EventEmitter.once(ee, 'idle');
-  }
 
   function queue<T>(fn: Task<T>) {
     return new Promise<T>((resolve) => {
@@ -41,6 +32,8 @@ export default function semaphore(size: number): Semaphore {
   }
 
   async function run<T>(fn: Task<T>) {
+    if (n === size)
+      ee.emit('deidle');
     n--;
     try {
       return await fn();
@@ -71,7 +64,7 @@ async function test() {
   sem.apply(job(3)).then((n) => console.log('completed', n));
   sem.apply(job(4)).then((n) => console.log('completed', n));
   sem.apply(job(5)).then((n) => console.log('completed', n));
-  sem.idle().then(() => console.log('idle'));
+  EventEmitter.once(sem.events, 'idle').then(() => console.log('idle'));
 }
 
 

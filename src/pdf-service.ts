@@ -38,7 +38,7 @@ export default async function pdfService(instance: FastifyInstance, _: PDFServic
 
   const upload = multer({storage: multer.diskStorage({})});
 
-  const browserMan = browserManager(playwright.chromium, {concurrency: 4});
+  const browserMan = browserManager(playwright.chromium, {idleTimeout: 10e3});
 
   instance.post('/', {
       schema: {
