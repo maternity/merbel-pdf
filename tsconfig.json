@@ -1,0 +1,10 @@
+{
+    "extends": "@tsconfig/node16",
+    "include": [
+	"src/**/*"
+    ],
+    "compilerOptions": {
+	"module": "node16",
+	"outDir": "build"
+    }
+}

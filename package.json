@@ -1,0 +1,21 @@
+{
+  "name": "@maternity/merbel-pdf",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/mime": "^3.0.1",
+    "@types/node": "^16.18.11",
+    "pino-pretty": "^9.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "fastify": "^4.10.2",
+    "fastify-multer": "^2.0.3",
+    "fluent-json-schema": "^4.0.0",
+    "playwright": "^1.29.1"
+  }
+}
