@@ -1,4 +1,5 @@
 import Fastify, {FastifyServerOptions} from 'fastify';
+import metrics from 'fastify-metrics';
 
 import pdfService from './pdf-service';
 
@@ -16,6 +17,7 @@ const fastify = Fastify({
       ? productionLoggingConfig
       : developmentLoggingConfig,
   });
+fastify.register(metrics);
 fastify.register(pdfService);
 
 async function serve(port=0) {
