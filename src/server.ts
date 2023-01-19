@@ -1,3 +1,5 @@
+import {once} from 'events';
+
 import Fastify, {FastifyServerOptions} from 'fastify';
 import metrics from 'fastify-metrics';
 
@@ -22,6 +24,8 @@ fastify.register(pdfService);
 
 async function serve(port=0) {
   fastify.listen({host: '::', port})
+  await once(process, 'SIGTERM');
+  await fastify.close();
 }
 
 if (require.main === module) {
