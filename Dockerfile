@@ -5,7 +5,7 @@ RUN cd /merbel-pdf && \
     npm install && \
     npm run build
 
-FROM ubuntu:jammy
+FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
 
