@@ -2,6 +2,7 @@ import {once} from 'events';
 
 import Fastify, {FastifyServerOptions} from 'fastify';
 import metrics from 'fastify-metrics';
+import {ArgumentParser} from 'argparse';
 
 import pdfService from './pdf-service';
 
@@ -29,9 +30,12 @@ async function serve(port=0) {
 }
 
 if (require.main === module) {
-  const port = process.argv.length > 2
-    ? +process.argv[2]
-    : undefined;
+  const parser = new ArgumentParser();
+
+  parser.add_argument('port', {metavar: 'PORT', nargs: '?', type: 'int', default: 80,
+    help: 'Port to serve merbel-pdf on'});
+
+  const {port} = parser.parse_args();
 
   serve(port)
     .catch((err) => {
