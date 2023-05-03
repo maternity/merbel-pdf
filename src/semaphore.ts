@@ -40,10 +40,10 @@ export default function semaphore(size: number): Semaphore {
     } finally {
       n++;
       if (pending.length > 0) {
-	const {fn, resolve} = pending.shift()!;
-	resolve(run(fn));
+        const {fn, resolve} = pending.shift()!;
+        resolve(run(fn));
       } else if (n === size) {
-	ee.emit('idle');
+        ee.emit('idle');
       }
     }
   }

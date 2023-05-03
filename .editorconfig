@@ -1,0 +1,15 @@
+# Helps maintain consistent style/formatting across various editors and IDEs.
+# While we enforce some of these conventions with tools like eslint/prettier,
+# it is convenient to have the editor use the expected formatting up front.
+# See https://editorconfig.org/ for more info and links to editor plugins.
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+indent_style = space
+indent_size = 2
