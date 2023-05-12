@@ -26,7 +26,11 @@ async function main() {
   parser.add_argument('--metrics-port', {metavar: 'PORT', type: 'int',
     help: 'Port to serve metrics on'});
 
-  const {port, metrics_port} = parser.parse_args();
+  parser.add_argument('--concurrency', '-j', {metavar: 'N', type: 'int',
+    help: 'Number of concurrent PDF conversions to process (additional '+
+      'requests will queue until running requests have completed)'});
+
+  const {port, concurrency, metrics_port} = parser.parse_args();
 
   const fastify = Fastify({
       logger: process.env.NODE_ENV === 'production'
@@ -37,7 +41,7 @@ async function main() {
   if (metrics_port)
     await setupMetrics(fastify, metrics_port);
 
-  await fastify.register(pdfService);
+  await fastify.register(pdfService, {concurrency});
 
   await fastify.listen({host: '::', port})
 
