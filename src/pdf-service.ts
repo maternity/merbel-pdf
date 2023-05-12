@@ -30,15 +30,19 @@ type Unparsed<T> = {
 // For how chrome's default header and footer layout work.
 
 interface PDFServiceOptions {
+  concurrency?: number;
 }
 
-export default async function pdfService(instance: FastifyInstance, _: PDFServiceOptions) {
+export default async function pdfService(instance: FastifyInstance, opts: PDFServiceOptions) {
   instance.register(demoUi);
   instance.register(multer.contentParser);
 
   const upload = multer({storage: multer.diskStorage({})});
 
-  const browserMan = browserManager(playwright.chromium, {idleTimeout: 10e3});
+  const browserMan = browserManager(playwright.chromium, {
+    idleTimeout: 10e3,
+    concurrency: opts.concurrency,
+  });
 
   instance.post('/', {
       schema: {

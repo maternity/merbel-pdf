@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
+    "@types/argparse": "^2.0.10",
     "@types/mime": "^3.0.1",
     "@types/node": "^16.18.11",
     "pino-pretty": "^9.1.1",
@@ -13,6 +14,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
+    "argparse": "^2.0.1",
     "fastify": "^4.10.2",
     "fastify-metrics": "^10.0.1",
     "fastify-multer": "^2.0.3",
