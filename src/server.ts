@@ -62,7 +62,7 @@ async function setupMetrics(fastify: FastifyInstance, port: number) {
     });
 
   fastify.addHook('onReady', async () => {
-      await metricsFastify.listen({port});
+      await metricsFastify.listen({host: '::', port});
     });
 
   fastify.addHook('onClose', async() => {
